@@ -1,9 +1,8 @@
-import requests
 import json
-
-
+import asyncio
+import websockets
 import json
-import numpy as np
+import time
 
 def create_large_cube(n):
     # Create an array to store the vertices
@@ -71,11 +70,39 @@ def create_large_cube(n):
     # Return the vertices and faces as a dictionary
     return {'vertices': vertices, 'faces': faces}
 
-# Generate a cube with 10 squares per side
-large_cube = create_large_cube(5)
 
+async def send_model(websocket, path):
+    global model_data
+    await websocket.send(json.dumps(model_data))
 
-# Send the cube to the web app
-print("sending cube")
-response = requests.post('http://localhost:8000/model', json=large_cube)
-print(response.status_code)
+    ack = None
+    while ack != 'ACK':
+        try:
+            ack = await asyncio.wait_for(websocket.recv(), timeout=1.0)
+        except asyncio.TimeoutError:
+            # If no message is received within the timeout period, just continue waiting
+            continue
+
+    await websocket.close()  # Close the websocket after receiving the ack
+    stop_server.set()  # Notify that the server can be stopped
+
+stop_server = asyncio.Event()
+
+async def start_server(model):
+    global model_data
+    model_data = model
+    server = await websockets.serve(send_model, 'localhost', 8765)
+
+    # Wait until the server is told to stop
+    await stop_server.wait()
+
+    server.close()  # Stop the server
+    await server.wait_closed()  # Wait until the server has indeed stopped
+
+loop = asyncio.get_event_loop()
+cube_side = 10
+large_cube = create_large_cube(cube_side)
+t_before = time.time()
+print("sending cube with side " + str(cube_side))
+loop.run_until_complete(start_server(large_cube))
+print("sending required " + str(time.time() - t_before) + " s.")
