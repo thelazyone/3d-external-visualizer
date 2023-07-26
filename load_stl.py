@@ -14,5 +14,4 @@ def load_stl(filename):
 model = load_stl('susan.stl')
 
 # Send the model to the web app
-print(model)
 run_server(model)

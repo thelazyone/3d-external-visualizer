@@ -100,7 +100,7 @@ async def start_server(model):
     await server.wait_closed()  # Wait until the server has indeed stopped
 
 loop = asyncio.get_event_loop()
-cube_side = 10
+cube_side = 100
 large_cube = create_large_cube(cube_side)
 t_before = time.time()
 print("sending cube with side " + str(cube_side))
