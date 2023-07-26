@@ -5,10 +5,10 @@ The main goal of the project is to provide a basic visualizer for 3D files, whic
 
 Currently the visualizer is implemented in js and the user-side (technically a server) utility is in python. However, since everything is handled through WebSockets, one of the first future steps would be to reimplement the visualizer in RUST-WASM and to implement another user-side library in RUST as well.
 
-A better description of the interface will follow.
+A better description of the interface will follow, for now it can be inferred from the model_server.py.
 
 ## Simple usage: 
-* The visualizer is accessible through this live demo: https://test.thelazyforger.com/3d-visualizer/ or by using "parcel" to package the js code to run in localhost. Follow the readme.txt inside /js_viewer.
+* The visualizer is accessible through this live demo: https://test.thelazyforger.com/3d-visualizer/ or by using "parcel" to package the js code to run in localhost. Follow the readme.txt inside /js_viewer. Expect the visualizer to be a pitch black screen, it's waiting for any input from one of the examples (see below).
 * Sample "senders" of 3D meshes are load_cube.py and load_stl.py (which requires "susan.stl"). Both depend on model_server.py, which is the utility that handles both the connection and the serialization of the files. 
 
 ## notes: 
