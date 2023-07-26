@@ -14,5 +14,3 @@ The "dist" folder contains all the necessary.
 However, you have to remove the / in the script line: 
 
 <script src="/viewer.6f8112d9.js"></script> -> <script src="viewer.6f8112d9.js"></script>
-
-
