@@ -13,3 +13,8 @@ A better description of the interface will follow, for now it can be inferred fr
 
 ## notes: 
 Currently the sending is done through a VERY basic json format. It's not optimized and it could be serialized in binary, but as a PoC it's already something.
+
+## Next Steps:
+* Implementing a RUST library that does the same of the python one.
+* Test some heavier loads
+* Connect the RUST library with https://github.com/dima634/baby_shark and see the update in mesh real-time without the need of an intermediate file being written.
