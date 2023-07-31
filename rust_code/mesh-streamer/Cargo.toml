@@ -9,3 +9,6 @@ edition = "2021"
 stl_io = "0.7.0"            # Loading STLs and 3D data structures
 serde_json = "1.0"          # For serializing the mesh
 tungstenite = "0.16.0"      # For WebSocket
+tokio-tungstenite = "0.15.0"
+tokio = { version = "1", features = ["full"] }
+futures = "0.3.28"
