@@ -15,6 +15,8 @@ A better description of the interface will follow, for now it can be inferred fr
 Currently the sending is done through a VERY basic json format. It's not optimized and it could be serialized in binary, but as a PoC it's already something.
 
 ## Next Steps:
-* Implementing a RUST library that does the same of the python one.
+* Implementing a RUST library that does the same of the python one. [IN PROGRESS]
+* Find a faster way to have a real time update. Simple solution: not closing the server, but having it running async instead. :D 
 * Test some heavier loads
 * Connect the RUST library with https://github.com/dima634/baby_shark and see the update in mesh real-time without the need of an intermediate file being written.
+* Similarly, after re-writing Lazy-Tree (https://github.com/thelazyone/lazy-tree) using the visualizer for it.
