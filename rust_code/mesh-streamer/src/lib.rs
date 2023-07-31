@@ -123,8 +123,8 @@ async fn start_server_ws(model_data: String) -> Result<(), Box<dyn std::error::E
             // Send the model data to the client
             send_mesh_ws(websocket, model_data.clone(), tx).await?;
 
-
-            if rx.recv().is_err() {
+            // Receive the signal (whether "ACK" received or not)
+            if rx.recv().is_ok() {
                 stop_server = true;
             }
         }
@@ -143,5 +143,26 @@ mod tests {
         let susan = load_test("./test/susan.stl".to_string());
         let result = send_mesh_stl(&susan.unwrap());
         assert!(result.is_ok(), "Failed to send mesh: {:?}", result.err().unwrap());
+    }
+
+    #[test]
+    fn speed_test() {
+
+        // Currently this test shows that the updating speed is very slow. 
+        // This is due to the fact that the connection is created and destroyed every time.
+        
+        let mut mutable_mesh = InputMesh::new();
+        mutable_mesh.triangles = vec![[0, 1, 2]];
+        mutable_mesh.vertices = vec![[0., 0., 0.], [0., 1., 0.], [1., 1., 1.]];
+        for i in 1..100 
+        {
+            println!("testing iteration {}...", i);
+            for coord  in mutable_mesh.vertices[1].iter_mut() {
+                *coord *= 1.1;
+            }
+
+            let result = send_mesh(&mutable_mesh);
+            assert!(result.is_ok(), "Failed to send mesh: {:?}", result.err().unwrap());
+        }
     }
 }
