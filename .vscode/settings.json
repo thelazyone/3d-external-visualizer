@@ -1,5 +1,5 @@
 {
     "rust-analyzer.linkedProjects": [
-        ".\\rust_code\\mesh-streamer\\Cargo.toml"
+        ".\\streamer-3d-rust\\Cargo.toml"
     ]
 }
