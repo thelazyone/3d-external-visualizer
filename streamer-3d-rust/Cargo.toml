@@ -1,5 +1,5 @@
 [package]
-name = "streamer-3d-rust"
+name = "streamer_3d_rust"
 version = "0.1.0"
 edition = "2021"
 
