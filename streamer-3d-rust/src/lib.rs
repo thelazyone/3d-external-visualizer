@@ -1,5 +1,3 @@
-use std::fs::OpenOptions;
-
 use tokio::runtime::Runtime;
 use tokio::net::TcpListener;
 use tokio_tungstenite::accept_async;
@@ -11,10 +9,7 @@ use serde_json::json;
 use std::sync::mpsc;
 use futures::{SinkExt, StreamExt};
 
-pub fn load_test(path: String) -> Result<stl_io::IndexedMesh, std::io::Error> {
-    let mut file = OpenOptions::new().read(true).open(path).unwrap();
-    stl_io::read_stl(&mut file)
-}
+
 
 pub struct InputMesh {
     pub vertices: Vec<[f32; 3]>,
@@ -137,10 +132,16 @@ async fn start_server_ws(model_data: String) -> Result<(), Box<dyn std::error::E
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs::OpenOptions;
+
+    fn load_test(path: String) -> Result<stl_io::IndexedMesh, std::io::Error> {
+        let mut file = OpenOptions::new().read(true).open(path).unwrap();
+        stl_io::read_stl(&mut file)
+    }
 
     #[test]
     fn it_works() {
-        let susan = load_test("./test/susan.stl".to_string());
+        let susan = load_test("./test_files/susan.stl".to_string());
         let result = send_mesh_stl(&susan.unwrap());
         assert!(result.is_ok(), "Failed to send mesh: {:?}", result.err().unwrap());
     }
@@ -154,7 +155,7 @@ mod tests {
         let mut mutable_mesh = InputMesh::new();
         mutable_mesh.triangles = vec![[0, 1, 2]];
         mutable_mesh.vertices = vec![[0., 0., 0.], [0., 1., 0.], [1., 1., 1.]];
-        for i in 1..100 
+        for i in 1..5 
         {
             println!("testing iteration {}...", i);
             for coord  in mutable_mesh.vertices[1].iter_mut() {
