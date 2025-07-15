@@ -2,7 +2,6 @@ use tokio::net::TcpListener;
 use tokio_tungstenite::accept_async;
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::tungstenite::protocol::CloseFrame;
-use std::borrow::Cow;
 use std::sync::mpsc;
 use futures::{SinkExt, StreamExt};
 
@@ -15,7 +14,7 @@ pub async fn send_mesh_ws(
     tx: mpsc::Sender<()>
 ) -> Result<(), Box<dyn std::error::Error>> {
 
-    websocket.send(Message::Text(model_data)).await?; // Use send method here
+    websocket.send(Message::Text(model_data.into())).await?; // Use send method here
 
     let mut ack = None;
     while ack.is_none() {
@@ -28,7 +27,7 @@ pub async fn send_mesh_ws(
 
     let close_frame = CloseFrame {
         code: 1000.into(), // Normal closure code
-        reason: Cow::Borrowed(""),
+        reason: "".into(),
     };
     websocket.close(Some(close_frame)).await?; // Use close method with a CloseFrame
 

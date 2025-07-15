@@ -7,6 +7,9 @@ Currently the visualizer is implemented in js and the user-side (technically a s
 
 A better description of the interface will follow, for now it can be inferred from the model_server.py.
 
+## Running locally
+Aside from building the cargo projects, you can set up the viewer-3d-js with a `python -m http.server -b 127.0.0.1 8080` command.
+
 ## Simple usage: 
 * The visualizer is accessible through this live demo: https://test.thelazyforger.com/3d-visualizer/ or by using "parcel" to package the js code to run in localhost. Follow the readme.txt inside /js_viewer. Expect the visualizer to be a pitch black screen, it's waiting for any input from one of the examples (see below).
 * Sample "senders" of 3D meshes are load_cube.py and load_stl.py (which requires "susan.stl"). Both depend on model_server.py, which is the utility that handles both the connection and the serialization of the files. 
